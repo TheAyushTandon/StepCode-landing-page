@@ -76,9 +76,6 @@ export default function CTA() {
       {/* Red ambient spots */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[450px] h-[450px] rounded-full bg-primary-red/5 blur-[120px] pointer-events-none" />
 
-<<<<<<< HEAD
-      <div className="max-w-xl mx-auto relative z-10 w-full">
-=======
       <motion.div 
         variants={containerVariants}
         initial="hidden"
@@ -87,7 +84,6 @@ export default function CTA() {
         className="max-w-xl mx-auto relative z-10 w-full"
       >
         
->>>>>>> 8257dcc (feat: mobile responsive polish, smooth scroll, and layout refinements)
         {/* Title */}
         <motion.h2 
           variants={itemVariants}
@@ -115,10 +111,6 @@ export default function CTA() {
             <motion.form
               onSubmit={handleSubmit}
               onClick={!isExpanded ? () => setIsExpanded(true) : undefined}
-<<<<<<< HEAD
-              className="relative overflow-hidden border shadow-2xl select-none group w-full max-w-md flex items-center"
-              animate={{
-=======
               onFocus={!isExpanded ? () => setIsExpanded(true) : undefined}
               tabIndex={!isExpanded ? 0 : undefined}
               onKeyDown={(e) => {
@@ -129,7 +121,6 @@ export default function CTA() {
               }}
               className="relative overflow-hidden border shadow-2xl select-none group w-full max-w-md flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-red focus-visible:ring-offset-2 focus-visible:ring-offset-background-primary"
               animate={{ 
->>>>>>> 8257dcc (feat: mobile responsive polish, smooth scroll, and layout refinements)
                 width: isExpanded ? '100%' : '160px',
                 backgroundColor: isExpanded ? 'rgba(17, 17, 17, 1)' : 'rgba(17, 17, 17, 0)',
                 borderColor: isExpanded ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.2)',
@@ -178,12 +169,8 @@ export default function CTA() {
 
                   <button
                     type="submit"
-<<<<<<< HEAD
                     disabled={isSubmitting}
-                    className="bg-[#C1121F] hover:bg-[#C1121F]/90 text-white px-6 py-3 rounded-full text-xs font-black uppercase tracking-wider flex items-center justify-center gap-1.5 shrink-0 transition-all duration-200 cursor-pointer active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed"
-=======
-                    className="bg-[#C1121F] hover:bg-[#C1121F]/90 text-white px-6 py-3 rounded-full text-xs font-black uppercase tracking-wider flex items-center justify-center gap-1.5 shrink-0 cursor-pointer btn-tactile focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
->>>>>>> 8257dcc (feat: mobile responsive polish, smooth scroll, and layout refinements)
+                    className="bg-[#C1121F] hover:bg-[#C1121F]/90 text-white px-6 py-3 rounded-full text-xs font-black uppercase tracking-wider flex items-center justify-center gap-1.5 shrink-0 transition-all duration-200 cursor-pointer active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
                   >
                     {isSubmitting ? 'SUBMITTING...' : 'JOIN WAITLIST'}
                     {!isSubmitting && <ArrowRight size={14} className="stroke-[3px]" />}
