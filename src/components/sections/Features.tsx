@@ -1,7 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import React from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 
 interface FeatureCardProps {
   iconSrc: string;
@@ -18,36 +17,44 @@ interface FeatureCardProps {
 }
 
 function FeatureCard({ iconSrc, title, description, bgTitle, features, btnText, themeColor, index }: FeatureCardProps) {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 35 }}
+      initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 35 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-50px' }}
       transition={{ type: 'spring', stiffness: 80, damping: 15, delay: index * 0.1 }}
       className="stepcode-card-container z-10"
     >
-      <div 
-        className="stepcode-card" 
-        style={{ '--card-theme-color': themeColor } as React.CSSProperties}
+      <div
+        className="card-glow-border rounded-[20px] w-full max-w-[530px]"
       >
-        <div className="photo">
-          <img src={iconSrc} alt={title} />
-        </div>
-        
-        <div className="content">
-          <div className="title">{title}</div>
-          <div className="bg-title">{bgTitle}</div>
+        <div 
+          className="stepcode-card w-full h-full" 
+          tabIndex={0}
+          aria-label={`${title} feature: ${description}`}
+          style={{ '--card-theme-color': themeColor } as React.CSSProperties}
+        >
+          <div className="photo">
+            <img src={iconSrc} alt={title} loading="lazy" />
+          </div>
           
-          {features.map((feat, fIdx) => (
-            <div key={fIdx} className="feature">
-              <div>{feat.label}:</div>
-              {feat.options.map((opt, oIdx) => (
-                <span key={oIdx}>{opt}</span>
-              ))}
-            </div>
-          ))}
-          
-          <button className="btn-action">{btnText}</button>
+          <div className="content">
+            <div className="title">{title}</div>
+            <div className="bg-title">{bgTitle}</div>
+            
+            {features.map((feat, fIdx) => (
+              <div key={fIdx} className="feature">
+                <div>{feat.label}:</div>
+                {feat.options.map((opt, oIdx) => (
+                  <span key={oIdx}>{opt}</span>
+                ))}
+              </div>
+            ))}
+            
+            <button className="btn-action">{btnText}</button>
+          </div>
         </div>
       </div>
     </motion.div>
@@ -61,6 +68,7 @@ const StarDivider = () => (
 );
 
 export default function Features() {
+  const shouldReduceMotion = useReducedMotion();
   const featuresList = [
     {
       iconSrc: '/card-book.png',
@@ -124,7 +132,7 @@ export default function Features() {
   ];
 
   return (
-    <section id="projects" className="relative w-full pt-16 pb-28 bg-[#080808] overflow-hidden">
+    <section id="projects" className="scroll-mt-24 relative w-full pt-16 pb-24 md:pb-28 bg-[#080808] overflow-hidden">
       
       {/* Infinite Loop Marquee */}
       <div className="w-full overflow-hidden bg-[#0d0d0d] border-y border-white/5 py-5 mb-24 relative z-20 flex select-none">
@@ -149,9 +157,15 @@ export default function Features() {
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         
         {/* Section Headline */}
-        <h2 className="font-heading font-black text-3xl md:text-4xl text-white tracking-tight uppercase mb-20 text-center">
+        <motion.h2 
+          initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-100px' }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="font-heading font-black text-3xl md:text-4xl text-white tracking-tight uppercase mb-20 text-center"
+        >
           Everything You Need, <span className="text-[#C1121F]">All in One Place.</span>
-        </h2>
+        </motion.h2>
 
         {/* Features Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 justify-items-center">

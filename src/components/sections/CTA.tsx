@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import { motion, useReducedMotion, Variants } from 'framer-motion';
 import { Mail, ArrowRight, Sparkles } from 'lucide-react';
 
 // Paste the URL you copied in Step 2 here
@@ -12,6 +12,7 @@ export default function CTA() {
   const [submitted, setSubmitted] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
 
   async function sendEmailToGoogleSheet(userEmail: string) {
     const response = await fetch(googleScriptUrl, {
@@ -49,36 +50,88 @@ export default function CTA() {
     }
   };
 
+  const containerVariants: Variants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: shouldReduceMotion ? 0 : 0.1,
+      }
+    }
+  };
+
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] }
+    }
+  };
+
   return (
     <section
       id="cta"
-      className="relative w-full py-24 bg-[#080808] border-t border-white/5 flex flex-col items-center justify-center text-center px-6"
+      className="scroll-mt-24 relative w-full pt-72 pb-24 md:py-36 bg-[#080808] border-t border-white/5 flex flex-col items-center justify-center text-center px-6"
     >
       {/* Red ambient spots */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[450px] h-[450px] rounded-full bg-primary-red/5 blur-[120px] pointer-events-none" />
 
+<<<<<<< HEAD
       <div className="max-w-xl mx-auto relative z-10 w-full">
+=======
+      <motion.div 
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: '-100px' }}
+        className="max-w-xl mx-auto relative z-10 w-full"
+      >
+        
+>>>>>>> 8257dcc (feat: mobile responsive polish, smooth scroll, and layout refinements)
         {/* Title */}
-        <h2 className="font-heading font-black text-4xl md:text-5xl text-white tracking-tight leading-[1.05] uppercase mb-4">
-          Ready to learn the<br />
-          <span className="text-[#C1121F]">Right Things?</span>
-        </h2>
+        <motion.h2 
+          variants={itemVariants}
+          className="font-heading font-black tracking-tight leading-[1.1] uppercase mb-6 flex flex-col items-center select-none"
+        >
+          <span className="text-[6.2vw] xs:text-2xl sm:text-3xl md:text-5xl text-white">Every skill</span>
+          <span className="text-[6.2vw] xs:text-2xl sm:text-3xl md:text-5xl text-white mt-1">you learn today</span>
+          <span className="text-[6.2vw] xs:text-2xl sm:text-3xl md:text-5xl text-[#C1121F] mt-1 whitespace-nowrap">builds your tomorrow.</span>
+        </motion.h2>
 
         {/* Subtitle */}
-        <p className="text-text-secondary text-sm font-light leading-relaxed mb-10 max-w-sm mx-auto">
-          Join the waitlist. Get early notifications when new roadmaps and mentorship groups open.
-        </p>
+        <motion.p 
+          variants={itemVariants}
+          className="text-text-secondary text-sm font-light leading-relaxed mb-10 max-w-md mx-auto"
+        >
+          Be the first to know when new roadmaps, mentorship groups and exclusive resources drop. <span className="font-bold text-white">Learn ahead. Stay ahead.</span>
+        </motion.p>
 
         {/* Waitlist Form */}
-        <div className="w-full flex justify-center min-h-[64px]">
+        <motion.div 
+          variants={itemVariants}
+          className="w-full flex justify-center min-h-[64px]"
+        >
           {!submitted ? (
             <motion.form
               onSubmit={handleSubmit}
               onClick={!isExpanded ? () => setIsExpanded(true) : undefined}
+<<<<<<< HEAD
               className="relative overflow-hidden border shadow-2xl select-none group w-full max-w-md flex items-center"
               animate={{
+=======
+              onFocus={!isExpanded ? () => setIsExpanded(true) : undefined}
+              tabIndex={!isExpanded ? 0 : undefined}
+              onKeyDown={(e) => {
+                if (!isExpanded && (e.key === 'Enter' || e.key === ' ')) {
+                  e.preventDefault();
+                  setIsExpanded(true);
+                }
+              }}
+              className="relative overflow-hidden border shadow-2xl select-none group w-full max-w-md flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-red focus-visible:ring-offset-2 focus-visible:ring-offset-background-primary"
+              animate={{ 
+>>>>>>> 8257dcc (feat: mobile responsive polish, smooth scroll, and layout refinements)
                 width: isExpanded ? '100%' : '160px',
-                backgroundColor: isExpanded ? '#111111' : 'transparent',
+                backgroundColor: isExpanded ? 'rgba(17, 17, 17, 1)' : 'rgba(17, 17, 17, 0)',
                 borderColor: isExpanded ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.2)',
               }}
               whileHover={{
@@ -119,14 +172,18 @@ export default function CTA() {
                       placeholder="ENTER EMAIL ADDRESS"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="bg-transparent border-none text-xs text-text-primary placeholder:text-text-secondary/30 outline-none w-full font-bold tracking-wider uppercase"
+                      className="bg-transparent border-none text-xs text-text-primary placeholder:text-text-secondary/30 outline-none w-full font-bold tracking-wider uppercase focus:ring-0"
                     />
                   </div>
 
                   <button
                     type="submit"
+<<<<<<< HEAD
                     disabled={isSubmitting}
                     className="bg-[#C1121F] hover:bg-[#C1121F]/90 text-white px-6 py-3 rounded-full text-xs font-black uppercase tracking-wider flex items-center justify-center gap-1.5 shrink-0 transition-all duration-200 cursor-pointer active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed"
+=======
+                    className="bg-[#C1121F] hover:bg-[#C1121F]/90 text-white px-6 py-3 rounded-full text-xs font-black uppercase tracking-wider flex items-center justify-center gap-1.5 shrink-0 cursor-pointer btn-tactile focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+>>>>>>> 8257dcc (feat: mobile responsive polish, smooth scroll, and layout refinements)
                   >
                     {isSubmitting ? 'SUBMITTING...' : 'JOIN WAITLIST'}
                     {!isSubmitting && <ArrowRight size={14} className="stroke-[3px]" />}
@@ -144,12 +201,15 @@ export default function CTA() {
               Welcome to early access. Launching Q3 2026.
             </motion.div>
           )}
-        </div>
+        </motion.div>
 
-        <p className="mt-4 text-[9px] text-text-secondary/30 font-mono uppercase tracking-widest select-none">
+        <motion.p 
+          variants={itemVariants}
+          className="mt-4 text-[9px] text-text-secondary/30 font-mono uppercase tracking-widest select-none"
+        >
           No spam. Cancel at any time. Secure waitlist logs.
-        </p>
-      </div>
+        </motion.p>
+      </motion.div>
     </section>
   );
 }

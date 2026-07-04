@@ -1,8 +1,11 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
+import Image from 'next/image';
 
 export default function Hero() {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <section 
       style={{
@@ -18,14 +21,17 @@ export default function Hero() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[#C1121F]/5 blur-[130px] pointer-events-none z-0" />
       <div className="absolute top-[20%] left-[20%] w-[300px] h-[300px] rounded-full bg-white/2 blur-[100px] pointer-events-none z-0" />
 
-      {/* Background Tilted Doodle in the center */}
+      {/* Background Tilted Doodle in the center (Desktop only) */}
       <div 
-        className="absolute inset-0 flex justify-center items-center pointer-events-none z-0 overflow-hidden opacity-80"
+        className="hidden lg:flex absolute inset-0 justify-center items-center pointer-events-none z-0 overflow-hidden opacity-80"
       >
-        <img 
+        <Image 
           src="/clean-center-doodle.png" 
           alt="StepCode Journey Doodle" 
-          className="w-full max-w-[900px] lg:max-w-[1250px] xl:max-w-[1350px] h-auto object-contain select-none translate-y-12 -translate-x-10 lg:translate-y-35 lg:-translate-x-8" 
+          width={1350}
+          height={800}
+          priority
+          className="w-full max-w-[1250px] xl:max-w-[1350px] h-auto object-contain select-none translate-y-35 -translate-x-8" 
         />
       </div>
 
@@ -34,23 +40,35 @@ export default function Hero() {
         
         {/* Left Side: Questioning Headings (Cleaned-up Line breaks & Size) */}
         <motion.div 
-          initial={{ opacity: 0, x: -30 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.2 }}
+          initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 25 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
           className="flex flex-col justify-start text-left lg:self-start lg:pt-4 z-10"
         >
           <h1 className="font-heading text-3xl md:text-4xl lg:text-[2.3rem] xl:text-[2.8rem] text-white tracking-tight leading-[1.2] lg:leading-[1.25] uppercase">
             <span className="block font-semibold md:whitespace-nowrap">You're working hard.</span>
             <span className="block font-semibold md:whitespace-nowrap">But are you learning</span>
-            <span className="block text-[#C1121F] font-black md:whitespace-nowrap">the Right Things?</span>
+            <span className="block text-[#C1121F] font-black md:whitespace-nowrap">the Right Skills?</span>
           </h1>
         </motion.div>
 
+        {/* Mobile-only Journey Doodle (Renders between columns on smaller viewports) */}
+        <div className="flex lg:hidden justify-center items-center pointer-events-none z-0 py-2 opacity-60">
+          <Image 
+            src="/clean-center-doodle.png" 
+            alt="StepCode Journey Doodle" 
+            width={450}
+            height={270}
+            priority
+            className="w-full max-w-[340px] h-auto object-contain select-none" 
+          />
+        </div>
+
         {/* Right Side: Career Destination Headings (Cleaned-up Line breaks & Size) */}
         <motion.div 
-          initial={{ opacity: 0, x: 30 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.3 }}
+          initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 25 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
           className="flex flex-col justify-end text-left lg:text-right lg:self-end lg:pb-0 z-10"
         >
           <h2 className="font-heading text-3xl md:text-4xl lg:text-[2.3rem] xl:text-[2.8rem] text-white tracking-tight leading-[1.2] lg:leading-[1.25] lg:translate-y-20 uppercase">

@@ -1,8 +1,11 @@
 'use client';
 
 import { Github, Twitter, MessageSquare, ArrowUp } from 'lucide-react';
+import { motion, useReducedMotion } from 'framer-motion';
 
 export default function Footer() {
+  const shouldReduceMotion = useReducedMotion();
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -49,15 +52,43 @@ export default function Footer() {
 
           {/* Socials & Top Scroll */}
           <div className="flex items-center gap-6">
-            <a href="#" className="hover:text-white transition-colors"><Twitter size={16} /></a>
-            <a href="#" className="hover:text-white transition-colors"><Github size={16} /></a>
-            <a href="#" className="hover:text-white transition-colors"><MessageSquare size={16} /></a>
+            <motion.a 
+              href="#" 
+              whileHover={shouldReduceMotion ? {} : { scale: 1.15, y: -2 }}
+              whileTap={shouldReduceMotion ? {} : { scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 300, damping: 15 }}
+              className="hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-red p-1 rounded"
+              aria-label="StepCode Twitter Profile"
+            >
+              <Twitter size={16} />
+            </motion.a>
+            <motion.a 
+              href="#" 
+              whileHover={shouldReduceMotion ? {} : { scale: 1.15, y: -2 }}
+              whileTap={shouldReduceMotion ? {} : { scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 300, damping: 15 }}
+              className="hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-red p-1 rounded"
+              aria-label="StepCode GitHub Organization"
+            >
+              <Github size={16} />
+            </motion.a>
+            <motion.a 
+              href="#" 
+              whileHover={shouldReduceMotion ? {} : { scale: 1.15, y: -2 }}
+              whileTap={shouldReduceMotion ? {} : { scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 300, damping: 15 }}
+              className="hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-red p-1 rounded"
+              aria-label="StepCode Discord Community"
+            >
+              <MessageSquare size={16} />
+            </motion.a>
             <button 
               onClick={scrollToTop} 
-              className="flex items-center gap-1 hover:text-white transition-colors cursor-pointer"
+              className="flex items-center gap-1 hover:text-white transition-colors cursor-pointer hover-underline-animation focus:outline-none py-1 px-2 rounded"
+              aria-label="Scroll Back To Top"
             >
               <span>BACK TO TOP</span>
-              <ArrowUp size={12} />
+              <ArrowUp size={12} className="ml-0.5" />
             </button>
           </div>
         </div>

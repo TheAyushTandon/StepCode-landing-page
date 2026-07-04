@@ -50,11 +50,12 @@
   --foreground: #F8F8F8;
 }
 
-body {
+html, body {
   background: #080808;
   color: #F8F8F8;
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
   overflow-x: hidden;
+  max-width: 100%;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -93,28 +94,11 @@ h1, h2, h3, h4, h5, h6 {
   );
 }
 
-/* Card Spotlight border glow */
+/* Card Spotlight border glow — DISABLED */
 .card-glow-border {
   position: relative;
 }
-.card-glow-border::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1px;
-  background: radial-gradient(
-    250px circle at var(--mouse-x, 0px) var(--mouse-y, 0px),
-    rgba(230, 57, 70, 0.35),
-    transparent 80%
-  );
-  -webkit-mask: 
-    linear-gradient(#fff 0 0) content-box, 
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-}
+/* .card-glow-border::before removed — hover glow effect disabled */
 
 /* Lenis Custom Smooth Scroll Style */
 html.lenis, html.lenis body {
@@ -252,11 +236,23 @@ html.lenis, html.lenis body {
   border: 1px solid rgba(255, 255, 255, 0.05);
   overflow: hidden;
   font-family: inherit;
-  transition: border-color 0.5s ease;
+  transition: border-color 0.3s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.stepcode-card:hover {
+.stepcode-card:hover,
+.stepcode-card:focus-within {
   border-color: rgba(193, 18, 31, 0.3);
+  transform: translateY(-6px) scale(1.015);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+}
+
+.stepcode-card:active {
+  transform: translateY(-6px) scale(0.98);
+}
+
+.stepcode-card:focus-visible {
+  outline: 2px solid #E63946;
+  outline-offset: 4px;
 }
 
 .stepcode-card:before {
@@ -272,7 +268,8 @@ html.lenis, html.lenis body {
   z-index: 1;
 }
 
-.stepcode-card:hover:before {
+.stepcode-card:hover:before,
+.stepcode-card:focus-within:before {
   clip-path: circle(280px at 80% -20%);
 }
 
@@ -289,7 +286,8 @@ html.lenis, html.lenis body {
   justify-content: center;
 }
 
-.stepcode-card:hover .photo {
+.stepcode-card:hover .photo,
+.stepcode-card:focus-within .photo {
   top: 8%;
   transform: translateY(-10%);
 }
@@ -303,7 +301,8 @@ html.lenis, html.lenis body {
   filter: brightness(0) drop-shadow(0 8px 12px rgba(0,0,0,0.4));
 }
 
-.stepcode-card:hover .photo img {
+.stepcode-card:hover .photo img,
+.stepcode-card:focus-within .photo img {
   width: 95px;
   height: 95px;
   transform: rotate(0deg);
@@ -320,7 +319,8 @@ html.lenis, html.lenis body {
   padding: 0 20px;
 }
 
-.stepcode-card:hover .content {
+.stepcode-card:hover .content,
+.stepcode-card:focus-within .content {
   height: 200px;
 }
 
@@ -352,7 +352,8 @@ html.lenis, html.lenis body {
   text-transform: uppercase;
 }
 
-.stepcode-card:hover .bg-title {
+.stepcode-card:hover .bg-title,
+.stepcode-card:focus-within .bg-title {
   transform: translateY(45px);
   color: rgba(255, 255, 255, 0.04);
 }
@@ -367,7 +368,8 @@ html.lenis, html.lenis body {
   opacity: 0;
 }
 
-.stepcode-card:hover .feature {
+.stepcode-card:hover .feature,
+.stepcode-card:focus-within .feature {
   visibility: visible;
   opacity: 1;
   transition-delay: 0.3s;
@@ -424,15 +426,59 @@ html.lenis, html.lenis body {
   outline: none;
 }
 
-.stepcode-card:hover .btn-action {
+.stepcode-card:hover .btn-action,
+.stepcode-card:focus-within .btn-action {
   opacity: 1;
   transform: translateY(0px);
   transition-delay: 0.4s;
 }
 
-.stepcode-card .btn-action:hover {
+.stepcode-card .btn-action:hover,
+.stepcode-card .btn-action:focus-visible {
   background: var(--card-theme-color, #C1121F);
   color: #fff;
+}
+
+.stepcode-card .btn-action:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stepcode-card,
+  .stepcode-card:before,
+  .stepcode-card .photo,
+  .stepcode-card .photo img,
+  .stepcode-card .content,
+  .stepcode-card .bg-title,
+  .stepcode-card .feature,
+  .stepcode-card .btn-action {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+    clip-path: none !important;
+  }
+  .stepcode-card:before {
+    clip-path: circle(280px at 80% -20%) !important;
+  }
+  .stepcode-card .photo {
+    top: 8% !important;
+  }
+  .stepcode-card .content {
+    height: 200px !important;
+  }
+  .stepcode-card .feature {
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  .stepcode-card .btn-action {
+    opacity: 1 !important;
+  }
+  .stepcode-card:hover,
+  .stepcode-card:focus-within {
+    transform: none !important;
+    box-shadow: none !important;
+  }
 }
 
 /* Hide browser scrollbar globally */
@@ -444,4 +490,62 @@ html, body {
 html::-webkit-scrollbar,
 body::-webkit-scrollbar {
   display: none; /* Chrome, Safari and Opera */
+}
+
+/* Premium Tactile Buttons */
+.btn-tactile {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, border-color 0.2s ease;
+}
+.btn-tactile:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 24px rgba(230, 57, 70, 0.25), 0 0 15px rgba(230, 57, 70, 0.15);
+}
+.btn-tactile:active {
+  transform: scale(0.96);
+}
+.btn-tactile:focus-visible {
+  outline: 2px solid #E63946;
+  outline-offset: 4px;
+}
+
+/* Premium Link Underlines */
+.hover-underline-animation {
+  position: relative;
+  display: inline-block;
+}
+.hover-underline-animation::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 1px;
+  bottom: -2px;
+  left: 0;
+  background-color: currentColor;
+  transform-origin: bottom right;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hover-underline-animation:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+.hover-underline-animation:focus-visible {
+  outline: 2px solid #E63946;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-tactile,
+  .hover-underline-animation::after {
+    transition: none !important;
+    transform: none !important;
+    animation: none !important;
+    box-shadow: none !important;
+  }
+  .btn-tactile:hover,
+  .btn-tactile:active {
+    transform: none !important;
+    box-shadow: none !important;
+  }
 }
